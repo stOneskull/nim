@@ -19,7 +19,11 @@ proc age(): int =
   randomize()
   return rand(2..123)
 
-let person1 = Person(name: "Alice", age: age())
+var person1 = Person(name: "Alice", age: age())
 introduce(person1)
 let person2 = Person(name: "Bob", age: age())
 introduce(person2)
+person1.age += 1
+introduce(person1)
+# person2.age += 1
+# expression 'person2.age' is immutable, not 'var'
