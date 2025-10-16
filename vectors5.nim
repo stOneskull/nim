@@ -14,7 +14,6 @@
 import raylib
 import raymath
 import math
-import rlgl # Import the rlgl module for matrix stack functions
 
 const
   screenWidth = 800
