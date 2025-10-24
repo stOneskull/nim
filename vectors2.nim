@@ -12,7 +12,7 @@
 
 import raylib
 import raymath
-import math # Import Nim's standard math library for the PI constant
+import math, random # Import Nim's standard math library for the PI constant
 
 const
   screenWidth = 800
@@ -22,14 +22,27 @@ const
 proc main =
   initWindow(screenWidth, screenHeight, "raylib [vectors] lesson 2 - Shapes and Rotation")
   setTargetFPS(60)
+  randomize()
+
+  # Declare the vertex variables here so they are accessible throughout `main`.
+  var v1, v2, v3: Vector2
 
   # LESSON 1: MODEL SPACE
   # We define our shape's vertices relative to its own center (0, 0).
   # This is called "Model Space" or "Local Space". It makes transformations
   # like rotation much easier.
-  let v1 = Vector2(x:  0.0, y: -25.0) # The top point of the triangle
-  let v2 = Vector2(x: -25.0, y:  25.0) # The bottom-left point
-  let v3 = Vector2(x:  25.0, y:  25.0) # The bottom-right point
+  if rand(1..2) == 1:
+    # Assign values for an isosceles triangle
+    v1 = Vector2(x:  0.0, y: -25.0) # The top point of the triangle
+    v2 = Vector2(x: -25.0, y:  25.0) # The bottom-left point
+    v3 = Vector2(x:  25.0, y:  25.0) # The bottom-right point
+  else:
+    # Assign values for an equilateral triangle
+    let side: float32 = 50.0
+    let height = (sqrt(3.0) / 2.0) * side
+    v1 = Vector2(x:  0.0, y: -height * 2.0/3.0)      # Top vertex
+    v2 = Vector2(x: -side / 2.0, y: height * 1.0/3.0) # Bottom-left vertex
+    v3 = Vector2(x:  side / 2.0, y: height * 1.0/3.0) # Bottom-right vertex
 
   # This is the position where we will draw our shape in the world.
   # This is "World Space".
