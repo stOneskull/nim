@@ -22,7 +22,8 @@ The concept of a matrix—a rectangular array of numbers—has roots going back 
 Additivity: T(v + w) = T(v) + T(w)
 Homogeneity: T(c * v) = c * T(v)
 
-We will show that if you know where the basis vectors (i-hat = (1,0) and j-hat = (0,1)) land after a transformation, you can determine where any other vector will land. This is the "mini arithmetic" ]#
+We will show that if you know where the basis vectors (i-hat = (1,0) and j-hat = (0,1)) land 
+after a transformation, you can determine where any other vector will land. This is the "mini arithmetic" ]#
 
 
 import raylib
@@ -83,15 +84,14 @@ proc main =
     let p_screen = origin + p * GRID_SIZE
     drawText("Original Space", origin.x.int32 - 50, origin.y.int32 - 150, 20, LightGray)
     # Draw original basis vectors
-    # We fall back to the basic `drawLine` which takes integer coordinates.
     let i_hat_end = origin + i_hat * GRID_SIZE
     let j_hat_end = origin + j_hat * GRID_SIZE
-    drawLine(origin.x.int32, origin.y.int32, i_hat_end.x.int32, i_hat_end.y.int32, Red)   # i_hat
-    drawLine(origin.x.int32, origin.y.int32, j_hat_end.x.int32, j_hat_end.y.int32, Green) # j_hat
+    drawLine(origin, i_hat_end, 3.0, Red)   # i_hat
+    drawLine(origin, j_hat_end, 3.0, Green) # j_hat
     # Draw the components of vector p
     let p_comp_end = origin + i_hat * p.x * GRID_SIZE
-    drawLine(origin.x.int32, origin.y.int32, p_comp_end.x.int32, p_comp_end.y.int32, fade(Red, 0.5))
-    drawLine(p_comp_end.x.int32, p_comp_end.y.int32, p_screen.x.int32, p_screen.y.int32, fade(Green, 0.5))
+    drawLine(origin, p_comp_end, 2.0, fade(Red, 0.5))
+    drawLine(p_comp_end, p_screen, 2.0, fade(Green, 0.5))
     # Draw the original point p
     drawCircle(p_screen, 7, DarkBlue)
     drawText("p = 2i + 1j", p_screen.x.int32 + 10, p_screen.y.int32, 20, DarkBlue)
@@ -103,12 +103,12 @@ proc main =
     # Draw transformed basis vectors
     let ti_hat_end = transformed_origin + i_hat_transformed * GRID_SIZE
     let tj_hat_end = transformed_origin + j_hat_transformed * GRID_SIZE
-    drawLine(transformed_origin.x.int32, transformed_origin.y.int32, ti_hat_end.x.int32, ti_hat_end.y.int32, Red)   # T(i)
-    drawLine(transformed_origin.x.int32, transformed_origin.y.int32, tj_hat_end.x.int32, tj_hat_end.y.int32, Green) # T(j)
+    drawLine(transformed_origin, ti_hat_end, 3.0, Red)   # T(i)
+    drawLine(transformed_origin, tj_hat_end, 3.0, Green) # T(j)
     # Draw the transformed components
     let p_comp1 = transformed_origin + i_hat_transformed * p.x * GRID_SIZE
-    drawLine(transformed_origin.x.int32, transformed_origin.y.int32, p_comp1.x.int32, p_comp1.y.int32, fade(Red, 0.5))
-    drawLine(p_comp1.x.int32, p_comp1.y.int32, p_transformed_screen.x.int32, p_transformed_screen.y.int32, fade(Green, 0.5))
+    drawLine(transformed_origin, p_comp1, 2.0, fade(Red, 0.5))
+    drawLine(p_comp1, p_transformed_screen, 2.0, fade(Green, 0.5))
     # Draw the transformed point p
     drawCircle(p_transformed_screen, 7, Purple)
     drawText("T(p) = 2*T(i) + 1*T(j)", p_transformed_screen.x.int32 + 10, p_transformed_screen.y.int32, 20, Purple)

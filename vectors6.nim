@@ -135,16 +135,14 @@ proc main =
 
     # `drawPolyLinesEx` is not available in all raylib-nim versions.
     # We can draw the lines manually using `drawLineEx` to control thickness.
+    # Since `drawLine` is overloaded, we can pass vectors and thickness directly.
     for i in 0 ..< transformedQuadVertices.len:
-      let startPoint = transformedQuadVertices[i]
-      let endPoint = transformedQuadVertices[(i + 1) mod 4]
-      drawLine(startPoint.x.int32, startPoint.y.int32, endPoint.x.int32, endPoint.y.int32, quadColor)
+      drawLine(transformedQuadVertices[i], transformedQuadVertices[(i + 1) mod 4], 2.0, quadColor)
 
     # LESSON 4: DRAWING THE BULLET
     # Only draw the bullet if it's active.
     if bulletActive:
-      # `drawCircleV` is not in all versions; use `drawCircle` with explicit coordinates.
-      drawCircle(bulletPos.x.int32, bulletPos.y.int32, 5.0, Black)
+      drawCircle(bulletPos, 5.0, Black)
 
     endDrawing()
     # ------------------------------------------------------------------------------------

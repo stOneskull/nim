@@ -84,11 +84,11 @@ proc main =
     # --- Draw Graph Axes and Grid ---
     let xAxisStart = toScreenSpace(Vector2(x: -20, y: 0), graph)
     let xAxisEnd = toScreenSpace(Vector2(x: 20, y: 0), graph)
-    drawLine(xAxisStart, xAxisEnd, LightGray)
+    drawLine(xAxisStart, xAxisEnd, 2.0, LightGray)
 
     let yAxisStart = toScreenSpace(Vector2(x: 0, y: -20), graph)
     let yAxisEnd = toScreenSpace(Vector2(x: 0, y: 20), graph)
-    drawLine(yAxisStart, yAxisEnd, LightGray)
+    drawLine(yAxisStart, yAxisEnd, 2.0, LightGray)
 
     # --- Draw the Parabola ---
     # We draw the function by calculating many points and connecting them with lines.
@@ -126,17 +126,29 @@ proc main =
 
     drawText("The function (red curve) describes the relationship between x and y.", 20, 150, 20, Gray)
     drawText("Press [Space] to cycle through different functions.", 20, screenHeight - 40, 20, LightGray)
-    drawText("The equation's solutions (blue circles) are the 'roots' - the x-values where y is 0.", 20, 180, 20, Gray)
+    drawText("The equation's solutions (blue circles) are the 'roots' -", 20, 180, 20, Gray)
+    drawText("the x-values where y is 0.", 20, 200, 20, Gray)
 
     var rootText = "Roots: "
+    var discriminantText = fmt"Discriminant (b² - 4ac) = {discriminant:.2f}"
+    var discriminantMeaning: string
+
     if roots.len == 0:
       rootText &= "None (parabola does not cross the x-axis)"
+      discriminantMeaning = "Discriminant is negative: No real roots"
+    elif roots.len == 1:
+      rootText &= fmt"{roots[0]:.2f}"
+      discriminantMeaning = "Discriminant is zero: One real root"
     else:
       for i, root in roots:
         rootText &= fmt"{root:.2f}"
         if i < roots.len - 1: rootText &= ", "
+      discriminantMeaning = "Discriminant is positive: Two real roots"
     
-    drawText(rootText, 20, 220, 20, Blue)
+    drawText(rootText, 20, 240, 20, Blue)
+
+    drawText(discriminantText, 20, 270, 20, DarkGreen)
+    drawText(discriminantMeaning, 20, 290, 20, DarkGreen)
 
     endDrawing()
     # ------------------------------------------------------------------------------------

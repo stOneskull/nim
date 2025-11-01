@@ -130,8 +130,8 @@ proc main =
     for i in 0 ..< transformedQuadVertices.len:
       let startPoint = transformedQuadVertices[i]
       # Use the modulo operator to wrap around and connect the last vertex to the first.
-      let endPoint = transformedQuadVertices[(i + 1) mod transformedQuadVertices.len]
-      drawLine(startPoint.x.int32, startPoint.y.int32, endPoint.x.int32, endPoint.y.int32, DarkBlue)
+      let endPoint = transformedQuadVertices[(i + 1) mod 4]
+      drawLine(startPoint, endPoint, 2.0, DarkBlue)
 
     drawText("Each object has its own vertices (Model Space) and its own transformation matrix.", 10, screenHeight - 30, 15, Gray)
 

@@ -85,7 +85,8 @@ proc main =
     drawTriangleLines(transformedV1, transformedV2, transformedV3, Maroon)
     
     # We can also draw a small circle at the shape's origin to visualize the pivot point.
-    drawCircle(shapePosition.x.int32, shapePosition.y.int32, 5, LightGray)
+    # The `drawCircle` function is overloaded to accept a Vector2 for the center.
+    drawCircle(shapePosition, 5, LightGray)
     endDrawing()
     # ------------------------------------------------------------------------------------
   # De-Initialization

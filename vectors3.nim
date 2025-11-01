@@ -82,7 +82,7 @@ proc main =
     # where (tx, ty, tz) is the amount to move.
 
       # The `translate` function creates an "identity" matrix (which does nothing)
-    # and then puts the translation values into the 4th row.
+    # and then puts the translation values into the 4th row.. 
     # X-axis: (1, 0, 0)
     # Y-axis: (0, 1, 0)
     # Z-axis: (0, 0, 1)
@@ -117,7 +117,7 @@ proc main =
     drawText("This triangle is transformed by a single matrix!", 10, 10, 20, DarkGray)
 
     drawTriangleLines(transformedV1, transformedV2, transformedV3, Maroon)
-    drawCircle(worldPosition.x.int32, worldPosition.y.int32, 5, LightGray)
+    drawCircle(worldPosition, 5, LightGray)
     endDrawing()
     # ------------------------------------------------------------------------------------
   # De-Initialization

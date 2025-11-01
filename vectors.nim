@@ -76,15 +76,12 @@ proc main =
     drawText("Move your mouse to make the ball follow!", 10, 10, 20, DarkGray)
 
     # Draw a line from the ball to the mouse to visualize the direction vector
-    # Since `drawLineV` isn't being found, we'll fall back to the basic `drawLine`
-    # function, which takes integer coordinates. We convert our vector's float
-    # components to int32 for the function call.
-    drawLine(ballPosition.x.int32, ballPosition.y.int32, mousePosition.x.int32, mousePosition.y.int32, LightGray)
+    # Modern raylib-nim overloads `drawLine` to accept Vector2s directly.
+    drawLine(ballPosition, mousePosition, LightGray)
 
     # Draw our ball at its current position
-    # Similar to drawLine, we'll use the basic `drawCircle` function which takes
-    # integer coordinates for the center.
-    drawCircle(ballPosition.x.int32, ballPosition.y.int32, ballRadius, Maroon)
+    # `drawCircle` is also overloaded to accept a Vector2 for the center.
+    drawCircle(ballPosition, ballRadius, Maroon)
     endDrawing()
     # ------------------------------------------------------------------------------------
   # De-Initialization
