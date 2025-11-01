@@ -43,7 +43,7 @@ proc main =
 
   # LESSON 2: THE UNDERLYING SPACE (WORLD SPACE)
   # We can place multiple objects in our world. Each needs its own position.
-  let triangleWorldPos = Vector2(x: screenWidth * 0.25, y: screenHeight / 2.0)
+  let triangleBasePos = Vector2(x: screenWidth * 0.25, y: screenHeight / 2.0)
   let quadWorldPos = Vector2(x: screenWidth * 0.75, y: screenHeight / 2.0)
 
   var time: float32 = 0.0
@@ -61,17 +61,16 @@ proc main =
     # --- Triangle: Rotation and Translation ---
     let triRotation = time * 50.0 # Degrees
 
+    # Create a diagonal movement from the base position towards the bottom-left.
+    # sin(time) oscillates between -1 and 1. We'll map this to a 0-to-1 range.
+    let movementFactor = (sin(time) + 1.0) / 2.0 # Ranges from 0.0 to 1.0
+    let startPos = triangleBasePos
+    let endPos = Vector2(x: 100.0, y: screenHeight - 100.0)
+    let triangleWorldPos = lerp(startPos, endPos, movementFactor)
+
     # 1. The Rotation Matrix: Rotates the object around its own origin.
     # For 2D, this is a rotation around the Z-axis.
     let rotationMatrix: Matrix = rotateZ(triRotation * DEG2RAD)
-
-    # 2. The Translation Matrix: Moves the object to its final position in the world.
-    let triTranslationMatrix: Matrix = translate(triangleWorldPos.x, triangleWorldPos.y, 0.0)
-
-    # Combine them: Rotate first, then translate.
-    # The standard SRT (Scale, Rotate, Translate) order is achieved by multiplying
-    # the matrices in the reverse order: T * R * S.
-    let triangleModelMatrix: Matrix = multiply(rotationMatrix, triTranslationMatrix)
 
     # --- Quad: Scaling and Translation ---
     # Create a "pulsing" scale effect using the sine function.
@@ -88,17 +87,17 @@ proc main =
     # It needs its own translation matrix to move it to its world position.
     let quadTranslationMatrix: Matrix = translate(quadWorldPos.x, quadWorldPos.y, 0.0)
 
-    # Combine them using the correct SRT order: Scale first, then Translate.
-    # To achieve the effect of "Scale, then Translate", we must multiply the matrices
-    # as M_model = M_scale * M_translate.
-    let quadModelMatrix: Matrix = multiply(scalingMatrix, quadTranslationMatrix)
-
+    # Combine them. To achieve the effect of "Scale, then Translate", we must multiply
+    # the matrices in the reverse order: M_model = M_translate * M_scale.
+    let quadModelMatrix: Matrix = multiply(quadTranslationMatrix, scalingMatrix)
+    
     # LESSON 4: TRANSFORMING THE VERTICES (CPU-side)
-    # We apply the final combined matrix to each vertex of each shape.
-    let transformedTriV1 = transform(triangleVertices[0], triangleModelMatrix)
-    let transformedTriV2 = transform(triangleVertices[1], triangleModelMatrix)
-    let transformedTriV3 = transform(triangleVertices[2], triangleModelMatrix)
-
+    # NOTE: For Vector2, we must separate rotation and translation for predictable results.
+    # 1. Rotate the vertex in its local space.
+    # 2. Translate the rotated vertex to its world space position by adding the position vector.
+    let transformedTriV1 = transform(triangleVertices[0], rotationMatrix) + triangleWorldPos
+    let transformedTriV2 = transform(triangleVertices[1], rotationMatrix) + triangleWorldPos
+    let transformedTriV3 = transform(triangleVertices[2], rotationMatrix) + triangleWorldPos
 
     # For clarity and scalability, let's put the transformed quad vertices into an array.
 #[  let transformedQuadV1 = transform(quadVertices[0], quadModelMatrix)
@@ -114,7 +113,7 @@ proc main =
     beginDrawing()
     clearBackground(RayWhite)
 
-    drawText("Rotation + Translation", triangleWorldPos.x.int32 - 100, 50, 20, DarkGray)
+    drawText("Rotation + Translation", triangleBasePos.x.int32 - 100, 50, 20, DarkGray)
     drawTriangleLines(transformedTriV1, transformedTriV2, transformedTriV3, Maroon)
 
     drawText("Scaling + Translation", quadWorldPos.x.int32 - 100, 50, 20, DarkGray)
