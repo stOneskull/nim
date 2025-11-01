@@ -55,8 +55,8 @@ proc main =
 
     # LESSON 2: THE TRANSFORMATION STACK
     # Think of this like putting a new piece of transparent paper on top of
-    # our drawing. Everything we do after `rlPushMatrix` happens on this new
-    # sheet. `rlPopMatrix` removes the sheet, returning to the original state.
+    # our drawing. Everything we do after `pushMatrix` happens on this new
+    # sheet. `popMatrix` removes the sheet, returning to the original state.
     pushMatrix()
 
     # LESSON 3: TRANSLATION
@@ -69,7 +69,7 @@ proc main =
     # Now that we are at the center, we rotate our "transparent paper".
     # The rotation happens around the current origin (0,0), which we just
     # moved to the center of the screen.
-    # rlRotatef(angle, x-axis, y-axis, z-axis)
+    # rotatef(angle, x-axis, y-axis, z-axis)
     rotatef(rotation, 0, 0, 1) # We rotate on the Z-axis for 2D graphics
 
     # Now we can draw our triangle. Because we've transformed the world,
