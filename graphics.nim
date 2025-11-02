@@ -82,11 +82,16 @@ proc main =
     popMatrix()
 
     # --- Draw UI and Explanations ---
-    drawText(font, "Transformations: Translate and Rotate", Vector2(x: 20, y: 20), 30.0, 1.0, DarkGray)
-    drawText(font, "1. We move the 'drawing origin' to the screen's center (Translate).", Vector2(x: 20, y: 70), 20.0, 1.0, Gray)
-    drawText(font, "2. We rotate the world around that new origin (Rotate).", Vector2(x: 20, y: 100), 20.0, 1.0, Gray)
-    drawText(font, "3. We draw the triangle at (0,0) in that new, rotated world.", Vector2(x: 20, y: 130), 20.0, 1.0, Gray)
-    drawText(font, fmt"Angle: {rotation:.0f}°", Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, LightGray)
+    drawText(font, "Transformations: Translate and Rotate", 
+        Vector2(x: 20, y: 20), 30.0, 1.0, DarkGray)
+    drawText(font, "1. We move the 'drawing origin' to the screen's center (Translate).", 
+        Vector2(x: 20, y: 70), 20.0, 1.0, Gray)
+    drawText(font, "2. We rotate the world around that new origin (Rotate).", 
+        Vector2(x: 20, y: 100), 20.0, 1.0, Gray)
+    drawText(font, "3. We draw the triangle at (0,0) in that new, rotated world.", 
+        Vector2(x: 20, y: 130), 20.0, 1.0, Gray)
+    drawText(font, fmt"Angle: {rotation:.0f}°", 
+        Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, LightGray)
 
     endDrawing()
     # ------------------------------------------------------------------------------------
