@@ -21,6 +21,8 @@ The goal is a slow, smooth progression, ensuring each concept is well understood
 ### The `graphics` Series
 
 * **graphics.nim:** The first step into transformations. This lesson demonstrates how to use the matrix stack (`pushMatrix`, `translatef`, `rotatef`) to position and animate an object on the screen.
+* **graphics2.nim:** Shows how to programmatically generate vertices for any regular polygon (triangle, square, pentagon, etc.) and draw them.
+* **graphics3.nim:** Manages a "scene" of multiple, independent objects. Each polygon has its own position, rotation, and scale, demonstrating how to apply unique transformations to each object in a shared world space.
 
 ... more to come!
 
@@ -42,8 +44,6 @@ The goal is a slow, smooth progression, ensuring each concept is well understood
 
     or
 
-    ```sh
-    nim compile --run graphics.nim
-    ```
+    `nim compile --run graphics3.nim`
 
 Enjoy the journey!
