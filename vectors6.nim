@@ -131,13 +131,12 @@ proc main =
     drawText("Press [Space] to fire!", 10, 10, 20, LightGray)
 
     # --- Draw Shapes ---
-    drawTriangleLines(transformedTriVertices[0], transformedTriVertices[1], transformedTriVertices[2], Maroon)
+    drawTriangleLines(
+      transformedTriVertices[0], transformedTriVertices[1], transformedTriVertices[2], Maroon)
 
-    # `drawPolyLinesEx` is not available in all raylib-nim versions.
-    # We can draw the lines manually using `drawLineEx` to control thickness.
-    # Since `drawLine` is overloaded, we can pass vectors and thickness directly.
     for i in 0 ..< transformedQuadVertices.len:
-      drawLine(transformedQuadVertices[i], transformedQuadVertices[(i + 1) mod 4], 2.0, quadColor)
+      drawLine(
+        transformedQuadVertices[i], transformedQuadVertices[(i + 1) mod 4], 2.0, quadColor)
 
     # LESSON 4: DRAWING THE BULLET
     # Only draw the bullet if it's active.

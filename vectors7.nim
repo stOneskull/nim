@@ -17,7 +17,7 @@ import strformat
 
 const
   screenWidth = 800
-  screenHeight = 600 # A bit taller for the graph
+  screenHeight = 600 # A bit taller for the graph.
 
 # --- Graphing Helper Types and Procs ---
 type
@@ -103,8 +103,6 @@ proc main =
       let y2_graph = quadraticFunc(x2_graph, a, b, c)
       let p2_screen = toScreenSpace(Vector2(x: x2_graph, y: y2_graph), graph)
 
-      # Testing the hypothesis that `drawLine` is overloaded to accept Vector2s and thickness,
-      # which is common in modern raylib-nim versions.
       drawLine(p1_screen, p2_screen, 2.0, Maroon)
 
     # --- Draw the Roots ---
@@ -124,9 +122,12 @@ proc main =
     let eqText = fmt"Equation: {a}x² + {b}x + {c} = 0"
     drawText(eqText, 20, 110, 20, Black)
 
-    drawText("The function (red curve) describes the relationship between x and y.", 20, 150, 20, Gray)
-    drawText("Press [Space] to cycle through different functions.", 20, screenHeight - 40, 20, LightGray)
-    drawText("The equation's solutions (blue circles) are the 'roots' -", 20, 180, 20, Gray)
+    drawText("The function (red curve) describes the relationship between x and y.",
+             20, 150, 20, Gray)
+    drawText("Press [Space] to cycle through different functions.",
+             20, screenHeight - 40, 20, LightGray)
+    drawText("The equation's solutions (blue circles) are the 'roots' -",
+             20, 180, 20, Gray)
     drawText("the x-values where y is 0.", 20, 200, 20, Gray)
 
     var rootText = "Roots: "
@@ -162,6 +163,7 @@ main()
 #[
 This lesson shows the clear difference:
 - The FUNCTION `y = ax² + bx + c` is the entire red curve. It's a "map" of all possible points.
-- The EQUATION `ax² + bx + c = 0` asks a specific question: "Where does that curve cross the line y=0 (the x-axis)?".
+- The EQUATION `ax² + bx + c = 0` asks a specific question: 
+  "Where does that curve cross the line y=0 (the x-axis)?".
 - The blue circles are the answers to that question.
 ]#

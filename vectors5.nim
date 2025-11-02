@@ -133,7 +133,8 @@ proc main =
       let endPoint = transformedQuadVertices[(i + 1) mod 4]
       drawLine(startPoint, endPoint, 2.0, DarkBlue)
 
-    drawText("Each object has its own vertices (Model Space) and its own transformation matrix.", 10, screenHeight - 30, 15, Gray)
+    drawText("Each object has its own vertices (Model Space) and its own " &
+             "transformation matrix.", 10, screenHeight - 30, 15, Gray)
 
     endDrawing()
     # ------------------------------------------------------------------------------------

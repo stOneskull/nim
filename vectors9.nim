@@ -46,12 +46,11 @@ proc main =
   # We'll update this text less frequently to make it readable.
   var frameCounter = 0
   var continuousAngleText = fmt"Continuous Angle (for graph): {angle / PI:.2f}pi rad"
-  # Use `%` for float modulo, which comes from the `math` module.
-  let wrappedAngleRad = math.mod(angle, 2*PI)
-  var wrappedAngleText = fmt"Effective Angle (for circle): {wrappedAngleRad * 180.0 / PI:.1f}°"
+  # Use `mod` from the math module for float modulo.
+  let wrappedAngleRad = math.mod(angle, TAU)
+  var wrappedAngleText =
+    fmt"Effective Angle (for circle): {wrappedAngleRad * 360.0 / TAU:.1f}°"
 
-
-  # Load a font for clear text rendering
   let font = getFontDefault()
 
   # Main game loop
@@ -106,9 +105,10 @@ proc main =
     frameCounter += 1
     if frameCounter mod 6 == 0:
       continuousAngleText = fmt"Continuous Angle (for graph): {angle / PI:.2f}pi rad"
-      # Use `mod` for float modulo.
-      let wrappedAngleRad = math.mod(angle, 2*PI)
-      wrappedAngleText = fmt"Effective Angle (for circle): {wrappedAngleRad * 180.0 / PI:.1f}°"
+      # Use `mod` from math module for float modulo
+      let wrappedAngleRad = math.mod(angle, TAU)
+      wrappedAngleText =
+        fmt"Effective Angle (for circle): {wrappedAngleRad * 360.0 / TAU:.1f}°"
 
     # Draw
     # ------------------------------------------------------------------------------------
@@ -116,12 +116,16 @@ proc main =
     clearBackground(RayWhite)
 
     # --- Draw UI and Explanations ---
-    drawText(font, "The Unit Circle and Trigonometry", Vector2(x: 20, y: 20), 30.0, 1.0, DarkGray)
+    drawText(font, "The Unit Circle and Trigonometry",
+             Vector2(x: 20, y: 20), 30.0, 1.0, DarkGray)
     if isPaused:
-      drawText(font, "Press [Space] to resume", Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, DarkGray)
+      drawText(font, "Press [Space] to resume",
+               Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, DarkGray)
 
       # When paused, show the exact numerical values
-      let angleDeg = math.mod(angle, 2*PI) * 180.0 / PI
+      # TAU is a constant equal to 2*PI, representing a full circle in radians.
+      # It's often clearer than writing 2*PI everywhere.
+      let angleDeg = math.mod(angle, TAU) * (360.0 / TAU)
       let sinVal = sin(angle)
       let cosVal = cos(angle)
 
@@ -138,33 +142,50 @@ proc main =
 
       let sinValText = fmt"sin({angleDeg:.0f}°) = {formatTrigValue(sinVal)}"
       let cosValText = fmt"cos({angleDeg:.0f}°) = {formatTrigValue(cosVal)}"
-      drawText(font, sinValText, Vector2(x: graphOrigin.x - 200, y: graphOrigin.y + 100), 20.0, 1.0, Red)
-      drawText(font, cosValText, Vector2(x: graphOrigin.x - 200, y: graphOrigin.y + 125), 20.0, 1.0, Blue)
+      drawText(font, sinValText,
+               Vector2(x: graphOrigin.x - 200, y: graphOrigin.y + 100), 20.0, 1.0, Red)
+      drawText(font, cosValText,
+               Vector2(x: graphOrigin.x - 200, y: graphOrigin.y + 125), 20.0, 1.0, Blue)
     else:
-      drawText(font, "Press [Space] to pause", Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, LightGray)
-    drawText(font, wrappedAngleText, Vector2(x: circleCenter.x - 320, y: circleCenter.y + circleRadius + 20), 20.0, 1.0, Black)
-    drawText(font, continuousAngleText, Vector2(x: circleCenter.x - 320, y: circleCenter.y + circleRadius + 45), 20.0, 1.0, Gray)
+      drawText(font, "Press [Space] to pause",
+               Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, LightGray)
+    drawText(font, wrappedAngleText,
+             Vector2(x: circleCenter.x - 320, y: circleCenter.y + circleRadius + 20),
+             20.0, 1.0, Black)
+    drawText(font, continuousAngleText,
+             Vector2(x: circleCenter.x - 320, y: circleCenter.y + circleRadius + 45),
+             20.0, 1.0, Gray)
 
     # --- Draw Unit Circle Visualization (Left) ---
     drawCircleLines(circleCenter, circleRadius, LightGray)
-    drawLine(Vector2(x: circleCenter.x - circleRadius - 20, y: circleCenter.y), Vector2(x: circleCenter.x + circleRadius + 20, y: circleCenter.y), LightGray) # X-axis
-    drawLine(Vector2(x: circleCenter.x, y: circleCenter.y - circleRadius - 20), Vector2(x: circleCenter.x, y: circleCenter.y + circleRadius + 20), LightGray) # Y-axis
+    let xAxisStart = Vector2(x: circleCenter.x - circleRadius - 20, y: circleCenter.y)
+    let xAxisEnd = Vector2(x: circleCenter.x + circleRadius + 20, y: circleCenter.y)
+    drawLine(xAxisStart, xAxisEnd, LightGray) # X-axis
+    let yAxisStart = Vector2(x: circleCenter.x, y: circleCenter.y - circleRadius - 20)
+    let yAxisEnd = Vector2(x: circleCenter.x, y: circleCenter.y + circleRadius + 20)
+    drawLine(yAxisStart, yAxisEnd, LightGray) # Y-axis
 
     # Draw the rotating radius line
     drawLine(circleCenter, pointOnCircle, 2.0, Black)
     drawCircle(pointOnCircle, 8.0, Black)
 
     # --- Draw Combined Graph Visualization ---
-    drawText(font, "y = sin(angle)", Vector2(x: graphOrigin.x - 200, y: graphOrigin.y - 150), 20.0, 1.0, Red)
-    drawText(font, "y = cos(angle)", Vector2(x: graphOrigin.x - 200, y: graphOrigin.y - 125), 20.0, 1.0, Blue)
+    drawText(font, "y = sin(angle)",
+             Vector2(x: graphOrigin.x - 200, y: graphOrigin.y - 150), 20.0, 1.0, Red)
+    drawText(font, "y = cos(angle)",
+             Vector2(x: graphOrigin.x - 200, y: graphOrigin.y - 125), 20.0, 1.0, Blue)
 
     # Draw the -1, 0, and 1 horizontal lines
     let yZero = graphOrigin.y
     let yPlusOne = graphOrigin.y - 1 * graphScale.y
     let yMinusOne = graphOrigin.y + 1 * graphScale.y
-    drawLine(Vector2(x: graphOrigin.x - maxWavePoints, y: yZero), Vector2(x: graphOrigin.x + maxWavePoints, y: yZero), LightGray)
-    drawLine(Vector2(x: graphOrigin.x - maxWavePoints, y: yPlusOne), Vector2(x: graphOrigin.x + maxWavePoints, y: yPlusOne), colorAlpha(LightGray, 0.5))
-    drawLine(Vector2(x: graphOrigin.x - maxWavePoints, y: yMinusOne), Vector2(x: graphOrigin.x + maxWavePoints, y: yMinusOne), colorAlpha(LightGray, 0.5))
+    let lineStartX = graphOrigin.x - maxWavePoints
+    let lineEndX = graphOrigin.x + maxWavePoints
+    drawLine(Vector2(x: lineStartX, y: yZero), Vector2(x: lineEndX, y: yZero), LightGray)
+    drawLine(Vector2(x: lineStartX, y: yPlusOne), Vector2(x: lineEndX, y: yPlusOne),
+             colorAlpha(LightGray, 0.5))
+    drawLine(Vector2(x: lineStartX, y: yMinusOne), Vector2(x: lineEndX, y: yMinusOne),
+             colorAlpha(LightGray, 0.5))
 
     # Add labels for the horizontal lines
     let labelX = circleCenter.x + circleRadius + 20
@@ -175,37 +196,57 @@ proc main =
     # Draw Sine Wave
     for i in 0 ..< sinWavePoints.len() - 1:
       # Draw the wave relative to the current angle, so it scrolls left.
-      let p1 = Vector2(x: graphOrigin.x + (sinWavePoints[i].x - angle) * graphScale.x, y: graphOrigin.y - sinWavePoints[i].y * graphScale.y)
-      let p2 = Vector2(x: graphOrigin.x + (sinWavePoints[i+1].x - angle) * graphScale.x, y: graphOrigin.y - sinWavePoints[i+1].y * graphScale.y)
+      let p1 = Vector2(
+        x: graphOrigin.x + (sinWavePoints[i].x - angle) * graphScale.x, 
+        y: graphOrigin.y - sinWavePoints[i].y * graphScale.y)
+      let p2 = Vector2(
+        x: graphOrigin.x + (sinWavePoints[i+1].x - angle) * graphScale.x, 
+        y: graphOrigin.y - sinWavePoints[i+1].y * graphScale.y)
       drawLine(p1, p2, 2.0, Red)
 
     # Draw Cosine Wave
     for i in 0 ..< cosWavePoints.len() - 1:
-      let p1 = Vector2(x: graphOrigin.x + (cosWavePoints[i].x - angle) * graphScale.x, y: graphOrigin.y - cosWavePoints[i].y * graphScale.y)
-      let p2 = Vector2(x: graphOrigin.x + (cosWavePoints[i+1].x - angle) * graphScale.x, y: graphOrigin.y - cosWavePoints[i+1].y * graphScale.y)
+      let p1 = Vector2(
+        x: graphOrigin.x + (cosWavePoints[i].x - angle) * graphScale.x, 
+        y: graphOrigin.y - cosWavePoints[i].y * graphScale.y)
+      let p2 = Vector2(
+        x: graphOrigin.x + (cosWavePoints[i+1].x - angle) * graphScale.x, 
+        y: graphOrigin.y - cosWavePoints[i+1].y * graphScale.y)
       drawLine(p1, p2, 2.0, Blue)
 
     # --- Draw the Connecting Lines ---
     # Line from circle's Y to the start of the sine wave
-    let sinStartPoint = Vector2(x: graphOrigin.x, y: graphOrigin.y - sin(angle) * graphScale.y)
-    drawLine(Vector2(x: pointOnCircle.x, y: pointOnCircle.y), Vector2(x: sinStartPoint.x, y: pointOnCircle.y), 2.0, colorAlpha(Red, 0.5))
-    drawLine(Vector2(x: sinStartPoint.x, y: pointOnCircle.y), sinStartPoint, 2.0, colorAlpha(Red, 0.5))
+    let sinStartPoint =
+      Vector2(x: graphOrigin.x, y: graphOrigin.y - sin(angle) * graphScale.y)
+    drawLine(Vector2(x: pointOnCircle.x, y: pointOnCircle.y),
+             Vector2(x: sinStartPoint.x, y: pointOnCircle.y), 2.0, colorAlpha(Red, 0.5))
+    drawLine(Vector2(x: sinStartPoint.x, y: pointOnCircle.y),
+             sinStartPoint, 2.0, colorAlpha(Red, 0.5))
     drawCircle(sinStartPoint, 5.0, Red)
 
     # Line from circle's X to the start of the cosine wave
-    let cosStartPoint = Vector2(x: graphOrigin.x, y: graphOrigin.y - cos(angle) * graphScale.y)
-    drawLine(Vector2(x: pointOnCircle.x, y: pointOnCircle.y), Vector2(x: pointOnCircle.x, y: cosStartPoint.y), 2.0, colorAlpha(Blue, 0.5))
-    drawLine(Vector2(x: pointOnCircle.x, y: cosStartPoint.y), cosStartPoint, 2.0, colorAlpha(Blue, 0.5))
+    let cosStartPoint =
+      Vector2(x: graphOrigin.x, y: graphOrigin.y - cos(angle) * graphScale.y)
+    drawLine(Vector2(x: pointOnCircle.x, y: pointOnCircle.y),
+             Vector2(x: pointOnCircle.x, y: cosStartPoint.y), 2.0, colorAlpha(Blue, 0.5))
+    drawLine(Vector2(x: pointOnCircle.x, y: cosStartPoint.y),
+             cosStartPoint, 2.0, colorAlpha(Blue, 0.5))
     drawCircle(cosStartPoint, 5.0, Blue)
 
     # --- Draw the triangle inside the circle and label the sides ---
     let projectionPoint = Vector2(x: pointOnCircle.x, y: circleCenter.y)
     # Draw the vertical "sin" side
     drawLine(pointOnCircle, projectionPoint, 2.0, Red)
-    drawText(font, "sin", Vector2(x: pointOnCircle.x + 10, y: circleCenter.y + (pointOnCircle.y - circleCenter.y)/2), 20.0, 1.0, Red)
+    drawText(font, "sin",
+             Vector2(x: pointOnCircle.x + 10,
+                     y: circleCenter.y + (pointOnCircle.y - circleCenter.y)/2),
+             20.0, 1.0, Red)
     # Draw the horizontal "cos" side
     drawLine(circleCenter, projectionPoint, 2.0, Blue)
-    drawText(font, "cos", Vector2(x: circleCenter.x + (pointOnCircle.x - circleCenter.x)/2, y: circleCenter.y + 10), 20.0, 1.0, Blue)
+    drawText(font, "cos",
+             Vector2(x: circleCenter.x + (pointOnCircle.x - circleCenter.x)/2,
+                     y: circleCenter.y + 10),
+             20.0, 1.0, Blue)
 
     endDrawing()
     # ------------------------------------------------------------------------------------

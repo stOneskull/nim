@@ -55,7 +55,8 @@ proc drawGrid(graph: GraphSpace, font: Font) =
     let xMarkerScreenEnd = toScreenSpace(Vector2(x: xMarkerGraph.x, y: -0.1), graph)
     drawLine(xMarkerScreen, xMarkerScreenEnd, 2.0, LightGray)
     if i mod 2 == 0: # Label every 2*PI
-      drawText(font, fmt"{i}pi", Vector2(x: xMarkerScreen.x - 10, y: xMarkerScreen.y + 5), 10.0, 1.0, Gray)
+      drawText(font, fmt"{i}pi", Vector2(
+        x: xMarkerScreen.x - 10, y: xMarkerScreen.y + 5), 10.0, 1.0, Gray)
 
     # Y-axis markers
     let yMarkerGraph = Vector2(x: 0.1, y: i.float)
@@ -63,11 +64,12 @@ proc drawGrid(graph: GraphSpace, font: Font) =
     let yMarkerScreenEnd = toScreenSpace(Vector2(x: -0.1, y: yMarkerGraph.y), graph)
     drawLine(yMarkerScreen, yMarkerScreenEnd, 2.0, LightGray)
     if i != 0:
-      drawText(font, fmt"{i}", Vector2(x: yMarkerScreen.x + 5, y: yMarkerScreen.y - 5), 10.0, 1.0, Gray)
+      drawText(font, fmt"{i}", Vector2(
+        x: yMarkerScreen.x + 5, y: yMarkerScreen.y - 5), 10.0, 1.0, Gray)
 
 
 proc drawFunction(graph: GraphSpace, color: Color, funcToPlot: proc(x: float32): float32) =
-  let steps = 400 # More steps for a smoother curve
+  let steps = 400 # More steps for a smoother curve.
   let graphWidth = screenWidth.float / graph.scale.x
   let startX = -graphWidth / 2.0
 
@@ -90,13 +92,18 @@ proc drawUI(mode: DisplayMode, font: Font) =
   if mode == ShowCos or mode == ShowBoth:
     drawText(font, "Function: y = cos(x)", Vector2(x: 20, y: 110), 20.0, 1.0, Blue)
 
-  drawText(font, "These functions describe wave-like patterns.", Vector2(x: 20, y: 150), 20.0, 1.0, Gray)
-  drawText(font, "They are fundamental in describing rotation and oscillation.", Vector2(x: 20, y: 170), 20.0, 1.0, Gray)
+  drawText(font, "These functions describe wave-like patterns.",
+           Vector2(x: 20, y: 150), 20.0, 1.0, Gray)
+  drawText(font, "They are fundamental in describing rotation and oscillation.",
+           Vector2(x: 20, y: 170), 20.0, 1.0, Gray)
   if mode == ShowBoth:
-    drawText(font, "Notice that cos(x) is the same as sin(x), but shifted to the left by pi/2.", Vector2(x: 20, y: 200), 20.0, 1.0, Gray)
+    drawText(font, "Notice that cos(x) is the same as sin(x), but shifted to " &
+                   "the left by pi/2.", Vector2(x: 20, y: 200), 20.0, 1.0, Gray)
   
-  drawText(font, "The x-axis markers are placed at intervals of pi.", Vector2(x: 20, y: 230), 20.0, 1.0, Gray)
-  drawText(font, "Press [Space] to cycle through views.", Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, LightGray)
+  drawText(font, "The x-axis markers are placed at intervals of pi.",
+           Vector2(x: 20, y: 230), 20.0, 1.0, Gray)
+  drawText(font, "Press [Space] to cycle through views.",
+           Vector2(x: 20, y: screenHeight - 40), 20.0, 1.0, LightGray)
 
 
 proc main =
@@ -111,7 +118,6 @@ proc main =
     scale: Vector2(x: 50.0, y: 150.0) # 50 pixels per 1 unit on X, 150 on Y
   )
 
-  # Load a font explicitly to ensure all characters render correctly.
   let font = getFontDefault()
 
   var currentMode = ShowSin

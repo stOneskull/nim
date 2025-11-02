@@ -94,24 +94,28 @@ proc main =
     drawLine(p_comp_end, p_screen, 2.0, fade(Green, 0.5))
     # Draw the original point p
     drawCircle(p_screen, 7, DarkBlue)
-    drawText("p = 2i + 1j", p_screen.x.int32 + 10, p_screen.y.int32, 20, DarkBlue)
+    drawText("p = 2i + 1j", p_screen.x.int32 + 10, p_screen.y.int32, 20,
+             DarkBlue)
 
     # --- Draw the transformed coordinate space ---
     let transformed_origin = Vector2(x: 500, y: screenHeight / 2.0)
     let p_transformed_screen = transformed_origin + p_transformed * GRID_SIZE
-    drawText("Transformed Space", transformed_origin.x.int32 - 70, transformed_origin.y.int32 - 150, 20, Gray)
+    drawText("Transformed Space", transformed_origin.x.int32 - 70,
+             transformed_origin.y.int32 - 150, 20, Gray)
     # Draw transformed basis vectors
     let ti_hat_end = transformed_origin + i_hat_transformed * GRID_SIZE
     let tj_hat_end = transformed_origin + j_hat_transformed * GRID_SIZE
     drawLine(transformed_origin, ti_hat_end, 3.0, Red)   # T(i)
     drawLine(transformed_origin, tj_hat_end, 3.0, Green) # T(j)
     # Draw the transformed components
-    let p_comp1 = transformed_origin + i_hat_transformed * p.x * GRID_SIZE
+    let p_comp1 =
+      transformed_origin + i_hat_transformed * p.x * GRID_SIZE
     drawLine(transformed_origin, p_comp1, 2.0, fade(Red, 0.5))
     drawLine(p_comp1, p_transformed_screen, 2.0, fade(Green, 0.5))
     # Draw the transformed point p
     drawCircle(p_transformed_screen, 7, Purple)
-    drawText("T(p) = 2*T(i) + 1*T(j)", p_transformed_screen.x.int32 + 10, p_transformed_screen.y.int32, 20, Purple)
+    drawText("T(p) = 2*T(i) + 1*T(j)", p_transformed_screen.x.int32 + 10,
+             p_transformed_screen.y.int32, 20, Purple)
 
     drawText("A matrix just stores where the basis vectors land.", 20, 20, 20, DarkGray)
     drawText("The columns of the matrix ARE the transformed basis vectors.", 20, 50, 20, DarkGray)
