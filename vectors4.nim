@@ -53,16 +53,21 @@ proc main =
   let p = i_hat * 2.0 + j_hat * 1.0
 
   # LESSON 2: A LINEAR TRANSFORMATION
+  # "T" is standard notation for a Transformation function.
+  # T(v) means "the result of applying transformation T to vector v".
+  # T(i) is the transformed i_hat vector, and T(j) is the transformed j_hat.
   # A transformation is just a function that takes a vector and returns a new one.
   # We define our transformation by saying where the basis vectors should land.
   # Let's define a "shear" transformation.
-  let i_hat_transformed = Vector2(x: 1.0, y: 0.5)  # i_hat is sheared upwards
-  let j_hat_transformed = Vector2(x: -0.5, y: 1.0) # j_hat is sheared to the left
+  # This shears i_hat "down" in screen coordinates (by adding a positive Y).
+  let i_hat_transformed = Vector2(x: 1.0, y: 0.5)
+  # This shears j_hat "right" in screen coordinates (by adding a positive X).
+  let j_hat_transformed = Vector2(x: 0.5, y: 1.0)
 
   # The columns of a transformation matrix are simply the transformed basis vectors!
   # Our transformation matrix M would look like this:
-  # | i_hat_transformed.x   j_hat_transformed.x |   |  1.0   -0.5 |
-  # | i_hat_transformed.y   j_hat_transformed.y | = |  0.5    1.0 |
+  # | i_hat_transformed.x   j_hat_transformed.x |   | 1.0   0.5 |
+  # | i_hat_transformed.y   j_hat_transformed.y | = | 0.5   1.0 |
 
   # Main game loop
   # --------------------------------------------------------------------------------------
@@ -85,9 +90,11 @@ proc main =
     drawText("Original Space", origin.x.int32 - 50, origin.y.int32 - 150, 20, LightGray)
     # Draw original basis vectors
     let i_hat_end = origin + i_hat * GRID_SIZE
-    let j_hat_end = origin + j_hat * GRID_SIZE
-    drawLine(origin, i_hat_end, 3.0, Red)   # i_hat
+    let j_hat_end = origin + j_hat * GRID_SIZE # Add to draw downwards
+    drawLine(origin, i_hat_end, 3.0, Red)   # i_hat (points right)
     drawLine(origin, j_hat_end, 3.0, Green) # j_hat
+    drawText("i", i_hat_end.x.int32 + 5, i_hat_end.y.int32 + 5, 20, Red)
+    drawText("j", j_hat_end.x.int32 + 5, j_hat_end.y.int32, 20, Green)
     # Draw the components of vector p
     let p_comp_end = origin + i_hat * p.x * GRID_SIZE
     drawLine(origin, p_comp_end, 2.0, fade(Red, 0.5))
@@ -101,12 +108,14 @@ proc main =
     let transformed_origin = Vector2(x: 500, y: screenHeight / 2.0)
     let p_transformed_screen = transformed_origin + p_transformed * GRID_SIZE
     drawText("Transformed Space", transformed_origin.x.int32 - 70,
-             transformed_origin.y.int32 - 150, 20, Gray)
+             120, 20, Gray)
     # Draw transformed basis vectors
     let ti_hat_end = transformed_origin + i_hat_transformed * GRID_SIZE
     let tj_hat_end = transformed_origin + j_hat_transformed * GRID_SIZE
-    drawLine(transformed_origin, ti_hat_end, 3.0, Red)   # T(i)
+    drawLine(transformed_origin, ti_hat_end, 3.0, Red)   # T(i) (sheared down)
     drawLine(transformed_origin, tj_hat_end, 3.0, Green) # T(j)
+    drawText("T(i)", ti_hat_end.x.int32 + 5, ti_hat_end.y.int32 + 5, 20, Red)
+    drawText("T(j)", tj_hat_end.x.int32 + 5, tj_hat_end.y.int32, 20, Green)
     # Draw the transformed components
     let p_comp1 =
       transformed_origin + i_hat_transformed * p.x * GRID_SIZE
@@ -114,11 +123,21 @@ proc main =
     drawLine(p_comp1, p_transformed_screen, 2.0, fade(Green, 0.5))
     # Draw the transformed point p
     drawCircle(p_transformed_screen, 7, Purple)
-    drawText("T(p) = 2*T(i) + 1*T(j)", p_transformed_screen.x.int32 + 10,
-             p_transformed_screen.y.int32, 20, Purple)
+    drawText("T(p) = 2*T(i) + 1*T(j)", p_transformed_screen.x.int32 - 100,
+             p_transformed_screen.y.int32 + 15, 20, Purple)
 
     drawText("A matrix just stores where the basis vectors land.", 20, 20, 20, DarkGray)
     drawText("The columns of the matrix ARE the transformed basis vectors.", 20, 50, 20, DarkGray)
+    drawText("T(v) means 'the result of applying Transformation T to vector v'.", 20, 80, 20, DarkGray)
+
+    # Display the matrix for this transformation
+    drawText("T = ", 20, 120, 20, DarkGray)
+    drawText("| 1.0  0.5 |", 70, 110, 20, DarkGray)
+    drawText("| 0.5  1.0 |", 70, 130, 20, DarkGray)
+
+    drawText("The first column is T(i), where i-hat lands.", 20, 160, 20, Red)
+    drawText("The second column is T(j), where j-hat lands.", 20, 180, 20, Green)
+
 
     endDrawing()
     # ------------------------------------------------------------------------------------

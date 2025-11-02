@@ -81,7 +81,7 @@ proc main =
     # |  tx    ty    tz     1 |
     # where (tx, ty, tz) is the amount to move.
 
-      # The `translate` function creates an "identity" matrix (which does nothing)
+    # The `translate` function creates an "identity" matrix (which does nothing)
     # and then puts the translation values into the 4th row.. 
     # X-axis: (1, 0, 0)
     # Y-axis: (0, 1, 0)
@@ -109,15 +109,40 @@ proc main =
     let transformedV2 = transform(v2, modelMatrix)
     let transformedV3 = transform(v3, modelMatrix)
 
+    # We can also transform other points in the model's local space,
+    # like the endpoints of its local X and Y axes.
+    let localXAxisStart = Vector2(x: -40, y: 0)
+    let localXAxisEnd   = Vector2(x: 40, y: 0)
+    let localYAxisStart = Vector2(x: 0, y: -40)
+    let localYAxisEnd   = Vector2(x: 0, y: 40)
+
+    let worldXAxisStart = transform(localXAxisStart, modelMatrix)
+    let worldXAxisEnd   = transform(localXAxisEnd, modelMatrix)
+    let worldYAxisStart = transform(localYAxisStart, modelMatrix)
+    let worldYAxisEnd   = transform(localYAxisEnd, modelMatrix)
+
     # Draw
     # ------------------------------------------------------------------------------------
     beginDrawing()
     clearBackground(RayWhite)
 
     drawText("This triangle is transformed by a single matrix!", 10, 10, 20, DarkGray)
+    drawText("Gray lines are local axes. Blue lines are world axes.", 10, 40, 20, DarkGray)
+
+    # Draw the static World Space axes for reference
+    let worldXStart = Vector2(x: 0, y: worldPosition.y)
+    let worldXEnd = Vector2(x: screenWidth.float, y: worldPosition.y)
+    drawLine(worldXStart, worldXEnd, colorAlpha(Blue, 0.4))
+    let worldYStart = Vector2(x: worldPosition.x, y: 0)
+    let worldYEnd = Vector2(x: worldPosition.x, y: screenHeight.float)
+    drawLine(worldYStart, worldYEnd, colorAlpha(Blue, 0.4))
 
     drawTriangleLines(transformedV1, transformedV2, transformedV3, Maroon)
     drawCircle(worldPosition, 5, LightGray)
+
+    # Draw the transformed local axes
+    drawLine(worldXAxisStart, worldXAxisEnd, LightGray)
+    drawLine(worldYAxisStart, worldYAxisEnd, LightGray)
     endDrawing()
     # ------------------------------------------------------------------------------------
   # De-Initialization

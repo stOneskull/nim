@@ -66,6 +66,9 @@ proc main =
     let movementFactor = (sin(time) + 1.0) / 2.0 # Ranges from 0.0 to 1.0
     let startPos = triangleBasePos
     let endPos = Vector2(x: 100.0, y: screenHeight - 100.0)
+    # "lerp" stands for Linear Interpolation. It finds a point on the line
+    # between startPos and endPos. The movementFactor (0.0 to 1.0) determines
+    # how far along that line the point is, creating smooth movement.
     let triangleWorldPos = lerp(startPos, endPos, movementFactor)
 
     # 1. The Rotation Matrix: Rotates the object around its own origin.
@@ -121,10 +124,16 @@ proc main =
     # Since `drawPolyLinesEx` isn't found, we'll draw the quad with four `drawLine` calls.
 
   #[  
-    drawLine(transformedQuadV1.x.int32, transformedQuadV1.y.int32, transformedQuadV2.x.int32,       transformedQuadV2.y.int32, DarkBlue)
-    drawLine(transformedQuadV2.x.int32, transformedQuadV2.y.int32, transformedQuadV3.x.int32, transformedQuadV3.y.int32, DarkBlue)
-    drawLine(transformedQuadV3.x.int32, transformedQuadV3.y.int32, transformedQuadV4.x.int32, transformedQuadV4.y.int32, DarkBlue)
-    drawLine(transformedQuadV4.x.int32, transformedQuadV4.y.int32, transformedQuadV1.x.int32, transformedQuadV1.y.int32, DarkBlue) 
+    drawLine(
+    transformedQuadV1.x.int32, transformedQuadV1.y.int32, 
+    transformedQuadV2.x.int32, transformedQuadV2.y.int32, DarkBlue)
+    drawLine(
+    transformedQuadV2.x.int32, transformedQuadV2.y.int32, 
+    transformedQuadV3.x.int32, transformedQuadV3.y.int32, DarkBlue)
+    drawLine(transformedQuadV3.x.int32, transformedQuadV3.y.int32, 
+    transformedQuadV4.x.int32, transformedQuadV4.y.int32, DarkBlue)
+    drawLine(transformedQuadV4.x.int32, transformedQuadV4.y.int32, 
+    transformedQuadV1.x.int32, transformedQuadV1.y.int32, DarkBlue) 
     ]#
 
     for i in 0 ..< transformedQuadVertices.len:

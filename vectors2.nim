@@ -12,37 +12,24 @@
 
 import raylib
 import raymath
-import math, random # Import Nim's standard math library for the PI constant
+import math # Import Nim's standard math library for the PI constant
 
 const
   screenWidth = 800
   screenHeight = 450
   DEG2RAD = PI / 180.0 # Define the conversion constant ourselves
 
+type
+  TriangleType = enum
+    Isosceles, Equilateral, RightAngled
+
 proc main =
   initWindow(screenWidth, screenHeight, "raylib [vectors] lesson 2 - Shapes and Rotation")
   setTargetFPS(60)
-  randomize()
 
-  # Declare the vertex variables here so they are accessible throughout `main`.
   var v1, v2, v3: Vector2
 
-  # LESSON 1: MODEL SPACE
-  # We define our shape's vertices relative to its own center (0, 0).
-  # This is called "Model Space" or "Local Space". It makes transformations
-  # like rotation much easier.
-  if rand(1..2) == 1:
-    # Assign values for an isosceles triangle
-    v1 = Vector2(x:  0.0, y: -25.0) # The top point of the triangle
-    v2 = Vector2(x: -25.0, y:  25.0) # The bottom-left point
-    v3 = Vector2(x:  25.0, y:  25.0) # The bottom-right point
-  else:
-    # Assign values for an equilateral triangle
-    let side: float32 = 50.0
-    let height = (sqrt(3.0) / 2.0) * side
-    v1 = Vector2(x:  0.0, y: -height * 2.0/3.0)      # Top vertex
-    v2 = Vector2(x: -side / 2.0, y: height * 1.0/3.0) # Bottom-left vertex
-    v3 = Vector2(x:  side / 2.0, y: height * 1.0/3.0) # Bottom-right vertex
+  var currentType = Isosceles
 
   # This is the position where we will draw our shape in the world.
   # This is "World Space".
@@ -56,6 +43,33 @@ proc main =
   while not windowShouldClose(): # Detect window close button or ESC key
     # Update
     # ----------------------------------------------------------------------------------
+    if isKeyPressed(Space):
+      # Cycle through the triangle types
+      # `.ord` gets the integer value of an enum (Isosceles=0, Equilateral=1, etc.).
+      # `.high` gets the last enum member, so `.high.ord` is the highest index.
+      # We add 1 to get the total count for the `mod` operator, which makes the
+      # cycle wrap around to 0 when it goes past the end.
+      # `cast` converts the resulting integer back to a TriangleType.
+      currentType = cast[TriangleType]((currentType.ord + 1) mod (TriangleType.high.ord + 1))
+
+    # LESSON 1: MODEL SPACE
+    # We define our shape's vertices relative to its own center (0, 0).
+    # This is "Model Space". It makes transformations like rotation much easier.
+    if currentType == Isosceles:
+      v1 = Vector2(x: 0.0, y: -25.0)
+      v2 = Vector2(x: -25.0, y: 25.0)
+      v3 = Vector2(x: 25.0, y: 25.0)
+    elif currentType == RightAngled:
+      v1 = Vector2(x: -25.0, y: -25.0)
+      v2 = Vector2(x: 25.0, y: 25.0)
+      v3 = Vector2(x: -25.0, y: 25.0)
+    else: # Equilateral
+      let side: float32 = 50.0
+      let height = (sqrt(3.0) / 2.0) * side
+      v1 = Vector2(x:  0.0, y: -height * 2.0/3.0)
+      v2 = Vector2(x: -side / 2.0, y: height * 1.0/3.0)
+      v3 = Vector2(x:  side / 2.0, y: height * 1.0/3.0)
+
     # Increment the rotation by 1 degree each frame.
     rotation += 1.0
 
@@ -79,6 +93,7 @@ proc main =
 
     drawText("This triangle is defined by 3 vectors (vertices)!", 10, 10, 20, DarkGray)
     drawText("We rotate the vertices, then add the position vector.", 10, 40, 20, DarkGray)
+    drawText("Press [Space] to switch triangle type.", 10, screenHeight - 30, 20, LightGray)
 
     # LESSON 3: DRAWING THE TRANSFORMED SHAPE
     # `drawTriangleLines` can take Vector2s directly to draw the shape.

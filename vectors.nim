@@ -45,7 +45,6 @@ proc main =
 
     # We only want to move if the mouse is a meaningful distance away from the ball
     # to prevent jittering. We can check the length of the direction vector.
-    # After many attempts to find a library function, we'll do the math ourselves!
     # To avoid a slow square root calculation, we'll compare the *squared* length.
     # The squared length is simply x*x + y*y. We compare it to our threshold squared (1.0*1.0 = 1.0).
     # This is a very common and efficient technique in graphics programming.
@@ -73,6 +72,8 @@ proc main =
     beginDrawing()
     clearBackground(RayWhite)
 
+    # drawText(text, posX, posY, fontSize, color)
+    # (10, 10) is the top-left position, 20 is the font size in pixels.
     drawText("Move your mouse to make the ball follow!", 10, 10, 20, DarkGray)
 
     # Draw a line from the ball to the mouse to visualize the direction vector
