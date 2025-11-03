@@ -1,6 +1,6 @@
 # Nim & raylib: A Graphics Programming Journey
 
-This repository documents a step-by-step journey into 2D graphics programming using the Nim language and the [raylib](https://www.raylib.com/) library. Each file is a self-contained lesson that builds upon previous concepts, starting from basic vector math and progressing towards the foundations of a simple game.
+This repository documents a step-by-step journey into 2D graphics programming using the Nim language and the [naylib](https://github.com/planetis-m/naylib) wrapper for the [raylib](https://www.raylib.com/) library. Each file is a self-contained lesson that builds upon previous concepts, starting from basic vector math and progressing towards the foundations of a simple game.
 
 The goal is a slow, smooth progression, ensuring each concept is well understood before moving to the next.
 
