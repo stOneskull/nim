@@ -95,9 +95,10 @@ proc main =
     let quadModelMatrix: Matrix = multiply(quadTranslationMatrix, scalingMatrix)
     
     # LESSON 4: TRANSFORMING THE VERTICES (CPU-side)
-    # NOTE: For Vector2, we must separate rotation and translation for predictable results.
-    # 1. Rotate the vertex in its local space.
+    # For the triangle, we'll demonstrate a hybrid approach:
+    # 1. Rotate the vertex in its local space using a matrix.
     # 2. Translate the rotated vertex to its world space position by adding the position vector.
+    # This is a clear and effective way to handle transformations without a full model matrix.
     let transformedTriV1 = transform(triangleVertices[0], rotationMatrix) + triangleWorldPos
     let transformedTriV2 = transform(triangleVertices[1], rotationMatrix) + triangleWorldPos
     let transformedTriV3 = transform(triangleVertices[2], rotationMatrix) + triangleWorldPos

@@ -147,9 +147,9 @@ proc main =
       # Apply this object's transformations in SRT order (Scale, Rotate, Translate)
       # but the function calls are in the reverse: Translate, then Scale.
       translatef(poly.position.x, poly.position.y, 0)
-      # We use scalef() for the pulsing effect.
-      # Rotation is handled differently: we pass the angle directly to the
-      # drawPoly/drawPolyLines functions instead of using rlgl's rotatef().
+      # We use scalef() for the pulsing effect. For rotation, instead of using
+      # rlgl.rotatef(), we'll pass the angle directly to the drawing functions below.
+      # This is a convenient alternative for simple cases.
       scalef(poly.scale, poly.scale, 1.0) 
 
       # Now that the world is transformed for this object, draw it at (0,0).

@@ -5,7 +5,7 @@
 #   This lesson demonstrates:
 #   - Defining a shape's vertices (points) using Vector2.
 #   - The concept of "Model Space" (coordinates relative to the shape's own center).
-#   - Rotating vertices using `vector2Rotate`.
+#   - Rotating vertices using the `rotate` operator from the `raymath` module.
 #   - Translating vertices to a "World Space" position.
 #
 # ****************************************************************************************
