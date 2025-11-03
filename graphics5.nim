@@ -101,8 +101,9 @@ proc main =
 
     # LESSON 3: SINE WAVE PARTICLE UPDATE
     # We loop through all active sine wave particles and update their state.
-    # We must use a `for i in 0 ..< sineWaveParticles.len` loop with the `[]=`
-    # operator to modify particles directly within the Deque.
+    # We must use a `for i in 0 ..< len` loop here. This allows us to use the
+    # `[]` operator to get a mutable reference to each particle, which is
+    # required to modify its fields directly within the Deque.
     for i in 0 ..< sineWaveParticles.len:
       # Move the particle to the left.
       sineWaveParticles[i].position += sineWaveParticles[i].velocity * dt
