@@ -48,6 +48,8 @@ The goal is a slow, smooth progression, ensuring each concept is well understood
 
     or
 
-    `nim compile --run graphics3.nim`
+    ```sh
+    nim compile --run graphics3.nim
+    ```
 
 Enjoy the journey!
