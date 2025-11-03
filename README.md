@@ -24,6 +24,7 @@ The goal is a slow, smooth progression, ensuring each concept is well understood
 * **graphics2.nim:** Shows how to programmatically generate vertices for any regular polygon (triangle, square, pentagon, etc.) and draw them.
 * **graphics3.nim:** Manages a "scene" of multiple, independent objects. Each polygon has its own position, rotation, and scale, demonstrating how to apply unique transformations to each object in a shared world space.
 * **graphics4.nim:** A complete mini-game that combines many previous concepts. It features a player-controlled ship, different enemy types with varying health, collectibles, a scoring and life system, and a full game loop with "Playing" and "Game Over" states.
+* **graphics5.nim:** Introduces pixel-based drawing by creating two independent particle systems. A stream of "pixels" forms a sine wave, while a second system creates fiery sparks that are emitted from the rotating point, demonstrating how multiple effects can be managed simultaneously.
 
 ... more to come!
 
