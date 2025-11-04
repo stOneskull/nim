@@ -41,15 +41,17 @@ proc main =
     # To find the direction from the ball to the mouse, we subtract the ball's position
     # from the mouse's position. This gives us a new vector that "points" from the ball to the mouse.
     # The length (magnitude) of this vector is the distance between the two points.
+    # (ball position + ? == mouse position.. so ? == mouse position - ball position)
     var direction = mousePosition - ballPosition
+
+    const deadZoneRadius = 2.0 # We want a small "dead zone" of 2 pixels.
+    const deadZoneRadiusSq = deadZoneRadius * deadZoneRadius # Compare squared values to avoid sqrt().
 
     # We only want to move if the mouse is a meaningful distance away from the ball
     # to prevent jittering. We can check the length of the direction vector.
     # To avoid a slow square root calculation, we'll compare the *squared* length.
-    # The squared length is simply x*x + y*y. We compare it to our threshold squared (1.0*1.0 = 1.0).
-    # This is a very common and efficient technique in graphics programming.
     let lengthSq = direction.x * direction.x + direction.y * direction.y
-    if lengthSq > 1.0:
+    if lengthSq > deadZoneRadiusSq: # This is an efficient way of saying "if distance > deadZoneRadius"
       # LESSON 3: VECTOR NORMALIZATION
       # The `direction` vector has a variable length. If we used it for movement directly,
       # the ball would move faster the further the mouse is from it.
@@ -72,12 +74,15 @@ proc main =
     beginDrawing()
     clearBackground(RayWhite)
 
+    # A note on screen coordinates: The window's origin (0,0) is at the top-left corner.
+    # The X-axis increases to the right, and the Y-axis increases downwards.
+    # Therefore, drawing at (10, 10) places the text near the top-left.
     # drawText(text, posX, posY, fontSize, color)
-    # (10, 10) is the top-left position, 20 is the font size in pixels.
     drawText("Move your mouse to make the ball follow!", 10, 10, 20, DarkGray)
 
     # Draw a line from the ball to the mouse to visualize the direction vector
-    # Modern raylib-nim overloads `drawLine` to accept Vector2s directly.
+    # Rather than having a separate `drawLineV`, raylib-nim overloads `drawLine` 
+    # to accept Vector2s directly.
     drawLine(ballPosition, mousePosition, LightGray)
 
     # Draw our ball at its current position

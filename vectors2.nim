@@ -12,12 +12,11 @@
 
 import raylib
 import raymath
-import math # Import Nim's standard math library for the PI constant
+import math # Import Nim's standard math library for degToRad (pi/180)
 
 const
   screenWidth = 800
   screenHeight = 450
-  DEG2RAD = PI / 180.0 # Define the conversion constant ourselves
 
 type
   TriangleType = enum
@@ -80,8 +79,8 @@ proc main =
     # 2. Translate (move) the rotated vertex to its final position on the screen.
 
     # The `rotate` operator takes a vector and an angle in RADIANS.
-    # We multiply our angle in degrees by this constant.
-    let angleInRadians = rotation * DEG2RAD
+    # We use the `degToRad` function from the `math` module to convert our angle.
+    let angleInRadians = degToRad(rotation)
     let transformedV1 = rotate(v1, angleInRadians) + shapePosition
     let transformedV2 = rotate(v2, angleInRadians) + shapePosition
     let transformedV3 = rotate(v3, angleInRadians) + shapePosition
@@ -91,6 +90,7 @@ proc main =
     beginDrawing()
     clearBackground(RayWhite)
 
+    # drawText(text, posX, posY, fontSize, color)
     drawText("This triangle is defined by 3 vectors (vertices)!", 10, 10, 20, DarkGray)
     drawText("We rotate the vertices, then add the position vector.", 10, 40, 20, DarkGray)
     drawText("Press [Space] to switch triangle type.", 10, screenHeight - 30, 20, LightGray)
