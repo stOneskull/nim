@@ -11,8 +11,7 @@
 #
 # ****************************************************************************************
 
-import raylib
-import raymath
+import raylib, raymath
 import math
 import strformat
 from deques import Deque, addLast, popFirst, len, `[]`
@@ -27,25 +26,30 @@ proc main =
   setTargetFPS(60)
 
   # --- Visualization Setup ---
-  let circleCenter = Vector2(x: 800, y: screenHeight / 2)
-  let circleRadius = 100.0
+  let 
+    circleCenter = Vector2(x: 800, y: screenHeight / 2)
+    circleRadius = 100.0
 
   # Both waves will share a single origin point
-  let graphOrigin = Vector2(x: 450, y: screenHeight / 2)
-  let graphScale = Vector2(x: 50.0, y: 100.0) # x-scale, y-scale (amplitude)
+  let 
+    graphOrigin = Vector2(x: 450, y: screenHeight / 2)
+    graphScale = Vector2(x: 50.0, y: 100.0) # x-scale, y-scale (amplitude)
 
   # We use a Deque (Double-Ended Queue) to efficiently store the wave points.
   # It lets us add to one end and remove from the other in constant time.
-  var sinWavePoints: Deque[Vector2]
-  var cosWavePoints: Deque[Vector2]
+  var 
+    sinWavePoints: Deque[Vector2]
+    cosWavePoints: Deque[Vector2]
 
-  var angle: float32 = 0.0
-  var prevAngle: float32 = 0.0
-  var isPaused = false
+  var 
+    angle = 0.0'f32
+    prevAngle = 0.0'f32
+    isPaused = false
 
   # We'll update this text less frequently to make it readable.
-  var frameCounter = 0
-  var continuousAngleText = fmt"Continuous Angle (for graph): {angle / PI:.2f}pi rad"
+  var 
+    frameCounter = 0
+    continuousAngleText = fmt"Continuous Angle (for graph): {angle / PI:.2f}pi rad"
   # Use `mod` from the math module for float modulo.
   let wrappedAngleRad = math.mod(angle, TAU)
   var wrappedAngleText =
