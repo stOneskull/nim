@@ -28,16 +28,16 @@ proc main =
   # These are defined in "Model Space", meaning they are relative to the object's
   # own center (0,0), not the world.
   let triangleVertices = [
-    Vector2(x:  0.0, y: -30.0),
-    Vector2(x: -30.0, y:  30.0),
-    Vector2(x:  30.0, y:  30.0)
+    Vector2(x: 0.0, y: -30.0),
+    Vector2(x: -30.0, y: 30.0),
+    Vector2(x: 30.0, y: 30.0)
   ]
 
   let quadVertices = [
     Vector2(x: -25.0, y: -25.0),
-    Vector2(x:  25.0, y: -25.0),
-    Vector2(x:  25.0, y:  25.0),
-    Vector2(x: -25.0, y:  25.0)
+    Vector2(x: 25.0, y: -25.0),
+    Vector2(x: 25.0, y: 25.0),
+    Vector2(x: -25.0, y: 25.0)
   ]
 
   # LESSON 2: THE UNDERLYING SPACE (WORLD SPACE)

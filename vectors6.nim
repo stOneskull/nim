@@ -90,10 +90,13 @@ proc main =
     let scaleFactor = 1.0 + sin(time * 2.0) * 0.4
     let scalingMatrix: Matrix = scale(scaleFactor, scaleFactor, 1.0)
     let quadTranslationMatrix: Matrix = translate(quadWorldPos.x, quadWorldPos.y, 0.0)
+    # remember: to scale then translate, we multiply in reverse order
     let quadModelMatrix: Matrix = multiply(quadTranslationMatrix, scalingMatrix)
+    # right-to-left <-
     
     # --- Vertex Transformations (using loops for clarity) ---
-    # For the triangle, we use a "hybrid" method: rotate with a matrix, then translate with vector addition.
+    # For the triangle, we use a "hybrid" method: rotate with a matrix, 
+    # then translate with vector addition.
     var transformedTriVertices: array[3, Vector2]
     # In Python, we would would say 'for i, v in enumerate(triangleVertices):'
     # In Nim, the 'enumerate' is implicit because we are using 2 variables to iterate

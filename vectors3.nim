@@ -12,7 +12,7 @@
 
 import raylib
 import raymath
-import math # Import Nim's standard math library for the PI constant
+import math
 
 const
   screenWidth = 800
@@ -91,15 +91,17 @@ proc main =
 
     # LESSON 2: COMBINE MATRICES
     # The power of matrices is that they can be multiplied together to combine their
-    # transformations. The order matters! We rotate first, then translate.
-    # `multiply(A, B)` creates a new matrix that represents doing transform A, then B.
-    # The resulting `modelMatrix` now contains the rotated axes from the rotationMatrix
-    # AND the position offset from the translationMatrix, all in one place.
+    # transformations. The order is crucial and is the reverse of the operation order.
+    # To achieve the effect of "1. Translate, then 2. Rotate", we must multiply
+    # the matrices as `M_rotate * M_translate`.
+    # The resulting `modelMatrix` now contains the rotated axes from the rotation
+    # AND the position offset from the translation, all in one matrix.
 
+    # We multiply in the order: `rotate * translate`
     let modelMatrix = multiply(rotationMatrix, translationMatrix)
 
     # LESSON 3: TRANSFORM VERTICES
-    # Now, we apply our single, combined `modelMatrix` to each vertex.
+    # Now, we apply our single, combined `modelMatrix` to each of the vertices.
     # The `transform` function performs the matrix-vector multiplication, which looks
     # like this: transformed_vector = original_vector * modelMatrix
     # This is much more efficient than doing a rotate and then an add for every vertex.
@@ -115,9 +117,9 @@ proc main =
     # to show how the model's coordinate system is oriented in the world.
     const axisLength = 40.0
     let localXAxisStart = Vector2(x: -axisLength, y: 0) # A line from -40 to +40 on the local X-axis
-    let localXAxisEnd   = Vector2(x:  axisLength, y: 0)
+    let localXAxisEnd   = Vector2(x: axisLength, y: 0)
     let localYAxisStart = Vector2(x: 0, y: -axisLength) # A line from -40 to +40 on the local Y-axis
-    let localYAxisEnd   = Vector2(x: 0, y:  axisLength)
+    let localYAxisEnd   = Vector2(x: 0, y: axisLength)
 
     let worldXAxisStart = transform(localXAxisStart, modelMatrix)
     let worldXAxisEnd   = transform(localXAxisEnd, modelMatrix)
@@ -138,11 +140,11 @@ proc main =
     # The alpha value controls opacity. 1.0 is fully opaque, 0.0 is fully transparent.
     const axisAlpha = 0.4
     let worldXStart = Vector2(x: 0, y: worldPosition.y)
-    let worldXEnd = Vector2(x: screenWidth.float, y: worldPosition.y)
+    let worldXEnd = Vector2(x: screenWidth, y: worldPosition.y)
     # 2.0 for line thickness
     drawLine(worldXStart, worldXEnd, 2.0, colorAlpha(Blue, axisAlpha))
     let worldYStart = Vector2(x: worldPosition.x, y: 0)
-    let worldYEnd = Vector2(x: worldPosition.x, y: screenHeight.float)
+    let worldYEnd = Vector2(x: worldPosition.x, y: screenHeight)
     drawLine(worldYStart, worldYEnd, 2.0, colorAlpha(Blue, axisAlpha))
     
     # Draw the triangle's vertices after they have been transformed into world space.

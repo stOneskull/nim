@@ -29,7 +29,16 @@ to render 2D and 3D scenes. ]#
 #[ This lesson will demonstrate the two fundamental properties of a linear transformation:
 
 Additivity: T(v + w) = T(v) + T(w)
+  
+  "Transforming the sum" is the same as "summing the transformed".
+
 Homogeneity: T(c * v) = c * T(v)
+  
+  "Transforming the scaled" is the same as "scaling the transformed".
+
+  - T is the transformation function (e.g., a rotation, shear, or scale).
+  - v and w are vectors.
+  - c is a scalar (a regular number that scales a vector).
 
 We will show that if you know where the basis vectors (i-hat = (1,0) and j-hat = (0,1)) land 
 after a transformation, you can determine where any other vector will land. 
@@ -43,6 +52,8 @@ import math
 const
   screenWidth = 800
   screenHeight = 450
+  # Our vectors are defined in abstract "units" (e.g., i_hat is 1 unit long).
+  # The gridSize constant scales those units to 50 pixels for drawing on the screen.
   gridSize = 50
 
 proc main =
