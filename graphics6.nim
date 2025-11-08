@@ -19,8 +19,10 @@ import raymath
 import math
 import random
 # We import specific procedures from the `deques` module.
-# `[]` and `[]=` are the operators for accessing and assigning elements by index.
-from deques import Deque, addLast, popFirst, popLast, len, `[]`, items, `[]=`
+# `[]` is the operator for accessing elements by index.
+# `[]=` is for assigning elements by index.
+#from deques import Deque, addLast, popFirst, popLast, len, `[]`, `[]=`, items
+import deques
 
 const
   screenWidth = 800

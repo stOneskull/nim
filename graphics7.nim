@@ -20,7 +20,8 @@ import math
 import random
 import strformat
 import rlgl # For matrix transformations
-from deques import Deque, addLast, popFirst, popLast, len, `[]`, items, `[]=`
+# from deques import Deque, addLast, popFirst, popLast, len, `[]`, items, `[]=`
+import deques
 
 const
   screenWidth = 1000

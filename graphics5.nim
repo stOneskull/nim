@@ -21,7 +21,11 @@ import raylib
 import raymath
 import math
 import random
-from deques import Deque, addLast, popFirst, len, `[]`, items, `[]=`
+# We import specific procedures from the `deques` module.
+# `[]` is the operator for accessing elements by index.
+# `[]=` is for assigning elements by index.
+# from deques import Deque, addLast, popFirst, len, `[]`, `[]=`,items
+import deques
 
 const
   screenWidth = 1000
@@ -138,7 +142,7 @@ proc main =
         velocity: sparkVelocity,
         position: pointOnCircle,
         color: Yellow,
-        life: rand(0.5 .. 1.2) # Sparks are short-lived
+        life: rand(0.3 .. 1.1) # Sparks are short-lived
       )
       sparkParticles.addLast(newSpark)
 
