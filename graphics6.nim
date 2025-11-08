@@ -20,7 +20,7 @@ import math
 import random
 # We import specific procedures from the `deques` module.
 # `[]` is the operator for accessing elements by index.
-# `[]=` is for assigning elements by index.
+# `[]=` is for setting elements by index.
 #from deques import Deque, addLast, popFirst, popLast, len, `[]`, `[]=`, items
 import deques
 
