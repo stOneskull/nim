@@ -30,6 +30,14 @@ The goal is a slow, smooth progression, ensuring each concept is well understood
 
 ... more to come!
 
+## Web Version
+
+These lessons can be viewed and run directly in your web browser!
+
+**[→ View the interactive lessons at 2d.23bay.com](https://2d.23bay.com/)**
+
+The Nim code is compiled to WebAssembly (WASM) using the [Emscripten](https://emscripten.org/) toolchain. This allows the C-based raylib library to run at near-native speed in a secure browser environment.
+
 ## How to Run
 
 1. Make sure you have the Nim programming language installed.

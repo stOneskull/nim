@@ -9,3 +9,4 @@
 
 nim.code-workspace
 /.vscode
+build_web.sh
